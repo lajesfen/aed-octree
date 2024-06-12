@@ -18,7 +18,7 @@ public:
         halfSize = size / 2;
         isLeaf = true;
 
-        for(auto &i : children) {
+        for (auto &i : children) {
             i = nullptr;
         }
     }
@@ -30,7 +30,6 @@ public:
         }
     }
 
-    // ToDo: Fix insert. It's not subdividing correctly.
     void insert(const Point &point) {
         if (!contains(point)) return;
 
@@ -75,11 +74,26 @@ public:
         isLeaf = false;
     }
 
+    std::vector<Point> findClosest(const Point &point) {
+        if (!contains(point)) return {};
+
+        if(isLeaf) {
+            return points;
+        } else {
+            for(auto &i : children) {
+                if(i->contains(point))
+                    return i->findClosest(point);
+            }
+        }
+
+        return points;
+    }
+
     void print(int depth = 0) const {
         std::string indent(depth * 2, ' ');
         std::cout << indent << "Node Info:\n";
         std::cout << indent << "  Center: (" << center->x << ", " << center->y << ", " << center->z << ")\n";
-        std::cout << indent << "  Half Size: " << halfSize << "\n";
+        std::cout << indent << "  Half Size: " << halfSize << " = (" << halfSize*2 << "x" << halfSize*2 << "x" << halfSize*2 << ")\n";
         if (isLeaf) {
             std::cout << indent << "  Points: ";
             for (const auto& point : points) {

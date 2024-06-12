@@ -9,6 +9,10 @@ struct Point {
         this->y = y;
         this->z = z;
     }
+
+    void print() {
+        std::cout << "(" << this->x << ", " << this->y << ", " << this->z << ")\n";
+    }
 };
 
 #endif //OCTREE_POINT_H

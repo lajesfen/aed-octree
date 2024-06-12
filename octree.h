@@ -17,12 +17,16 @@ public:
         delete root;
     }
 
-    void insert(const Point &point) {
+    void insert(const Point &point) const {
         root->insert(point);
     }
 
     bool contains(const Point &point) {
         return root->contains(point);
+    }
+
+    std::vector<Point> findClosest(const Point &point) const {
+        return root->findClosest(point);
     }
 
     void print(int depth) const {
