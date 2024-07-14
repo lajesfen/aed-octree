@@ -37,15 +37,6 @@ public:
             points.push_back(point);
             if (points.size() > 8) {
                 subdivide();
-                for (const auto &p : points) {
-                    for (auto &i : children) {
-                        if (i->contains(p)) {
-                            i->insert(p);
-                            break;
-                        }
-                    }
-                }
-                points.clear();
             }
         } else {
             for (auto &i : children) {
@@ -72,6 +63,16 @@ public:
             children[i] = new OctreeNode(newX, newY, newZ, halfSize);
         }
         isLeaf = false;
+
+        for (const auto &p : points) {
+            for (auto &i : children) {
+                if (i->contains(p)) {
+                    i->insert(p);
+                    break;
+                }
+            }
+        }
+        points.clear();
     }
 
     std::vector<Point> findClosest(const Point &point) {
